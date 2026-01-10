@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/new_quiz_sv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".EditQuestionActivity">
+
+        <ImageButton
+            android:id="@+id/btn_leave_edit_quest"
+            android:layout_width="64dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#79BDD1"
+            android:fontFamily="sans-serif-medium"
+            app:cornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
+
+        <EditText
+            android:id="@+id/tf_edit_img_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="text|textCapSentences|textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_edit_quiz_url" />
+
+        <TextView
+            android:id="@+id/label_edit_quiz_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Image URL:"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tf_edit_answer_two" />
+
+        <EditText
+            android:id="@+id/tf_edit_answer_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:enabled="true"
+            android:inputType="textCapSentences"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_edit_question_answer1"
+            app:layout_constraintTop_toBottomOf="@+id/label_edit_question_answers" />
+
+        <EditText
+            android:id="@+id/tf_edit_answer_two"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:enabled="true"
+            android:inputType="textCapSentences"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_edit_question_answer2"
+            app:layout_constraintTop_toBottomOf="@+id/tf_edit_answer_one" />
+
+        <EditText
+            android:id="@+id/tf_edit_answer_three"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:editable="true"
+            android:ems="10"
+            android:inputType="textCapSentences"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_edit_question_answer3"
+            app:layout_constraintTop_toBottomOf="@+id/tf_edit_answer_two" />
+
+        <EditText
+            android:id="@+id/tf_edit_answer_four"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:editable="true"
+            android:ems="10"
+            android:inputType="textCapSentences"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_edit_question_answer4"
+            app:layout_constraintTop_toBottomOf="@+id/tf_edit_answer_three" />
+
+        <TextView
+            android:id="@+id/label_edit_question_answers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Answers:"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/group_edit_num_answers" />
+
+        <TextView
+            android:id="@+id/label_edit_question_correct_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Correct Answer:"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/label_edit_question_num"
+            app:layout_constraintTop_toTopOf="@+id/label_edit_question_num" />
+
+        <TextView
+            android:id="@+id/label_edit_question_answer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="1"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tf_edit_answer_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tf_edit_answer_one" />
+
+        <TextView
+            android:id="@+id/label_edit_question_answer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tf_edit_answer_two"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tf_edit_answer_two" />
+
+        <TextView
+            android:id="@+id/label_edit_question_answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="3"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tf_edit_answer_three"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tf_edit_answer_three" />
+
+        <TextView
+            android:id="@+id/label_edit_question_answer4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="4"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tf_edit_answer_four"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tf_edit_answer_four" />
+
+        <EditText
+            android:id="@+id/tf_edit_question"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="text|textCapSentences|textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_edit_question_name" />
+
+        <Button
+            android:id="@+id/btn_save_question"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="#79BDD1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Save"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_delete_question"
+            app:layout_constraintTop_toTopOf="@+id/btn_delete_question" />
+
+        <Button
+            android:id="@+id/btn_delete_question"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#0079BDD1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Delete"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_save_question"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tf_edit_img_url"
+            app:strokeColor="#79BDD1"
+            app:strokeWidth="2dp" />
+
+        <TextView
+            android:id="@+id/label_edit_question_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Question:"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_edit_question" />
+
+        <TextView
+            android:id="@+id/label_edit_question_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Number os Answers:"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tf_edit_question" />
+
+        <TextView
+            android:id="@+id/label_edit_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Question:"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/group_edit_num_answers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_edit_question_num">
+
+            <RadioButton
+                android:id="@+id/rb_edit_two_questions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:checked="false"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/rb_edit_three_questions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/rb_edit_four_questions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="4" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/group_edit_correct_answer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/label_edit_question_correct_answer"
+            app:layout_constraintTop_toBottomOf="@+id/label_edit_question_correct_answer">
+
+            <RadioButton
+                android:id="@+id/rb_edit_one_correct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:checked="false"
+                android:text="1" />
+
+            <RadioButton
+                android:id="@+id/rb_edit_two_correct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/rb_edit_three_correct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="3"
+                android:visibility="gone" />
+
+            <RadioButton
+                android:id="@+id/rb_edit_four_correct"
+                android:layout_width="45dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="24dp"
+                android:text="4"
+                android:visibility="gone" />
+
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
