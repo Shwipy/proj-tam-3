@@ -3,7 +3,6 @@ package estgoh.andre.tam_proj
 import estgoh.andre.tam_proj.Stuff.QuizAdapter
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
@@ -12,15 +11,26 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import estgoh.andre.tam_proj.DataBase.Question.Question
-import estgoh.andre.tam_proj.DataBase.Quiz.Quiz
-import estgoh.andre.tam_proj.Stuff.Daos
+import estgoh.andre.tam_proj.DataBase.AppService
+//import estgoh.andre.tam_proj.DataBase.Question.QuestionRoom
+import estgoh.andre.tam_proj.DataBase.Quiz
+//import estgoh.andre.tam_proj.DataBase.Quiz.QuizRoom
+import estgoh.andre.tam_proj.DataBase.User
+import estgoh.andre.tam_proj.DataBase.getRetrofit
+//import estgoh.andre.tam_proj.Stuff.Daos
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
-    var quizes : List<Quiz> = emptyList()
-    var questions = ArrayList<Question>()
+
+    lateinit var appService: AppService
+
+//    var quizes : List<QuizRoom> = emptyList()
+//    var questionRooms = ArrayList<QuestionRoom>()
     private val getQuiz = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             fillRecyclerView()
@@ -32,36 +42,73 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
     fun fillRecyclerView(){
-            val quizes = Daos(this).quiz.getAll()
+        val context = this
+        lifecycleScope.launch{
 
-            val context = this
-            val adapter = QuizAdapter(quizes)
-            adapter.onClick = object : QuizAdapter.OnClickListener{
-                override fun onClick(quizId: Long) {
-                    val numQuest = Daos(context).question.getQuizQuestions(quizId).size
+            try {
+                val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
+                val token = sharedPreferences.getString("token","")
 
-                    if (numQuest > 0){
-                        val intent = Intent(context, SolveQuizActivity::class.java)
-                        intent.putExtra("quizId",quizId)
-                        context.startActivity(intent)
-                    }else{
-                        Toast.makeText(context, "Quiz ainda não tem questões!", Toast.LENGTH_SHORT).show()
+                val response = appService.getAllQuizes("Bearer $token")
+                val body: List<Quiz>? = response.body()
+                when (response.code()) {
+                    200 -> if (body != null) {
+                        val quizes: List<Quiz> = body
+
+                        withContext(Dispatchers.Main){
+
+                            val adapter = QuizAdapter(quizes)
+                            adapter.onClick = object : QuizAdapter.OnClickListener{
+                                override fun onClick(quizId: Long) {
+                                    val numQuest = quizes.size
+
+                                    if (numQuest > 0){
+                                        //todo
+//                                        val intent = Intent(context, SolveQuizActivity::class.java)
+//                                        intent.putExtra("quizId",quizId)
+//                                        context.startActivity(intent)
+
+                                    }else{
+                                        Toast.makeText(context, "Quiz ainda não tem questões!", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+
+                            adapter.onEditClick = object : QuizAdapter.OnEditClickListener{
+                                override fun onEditClick(quizId: Long) {
+                                    //todo
+//                                    val intent = Intent(context, EditQuizActivity::class.java)
+//                                    intent.putExtra("id",quizId)
+//                                    editQuiz.launch(intent)
+                                }
+
+                            }
+                            val recyclerview: RecyclerView = findViewById(R.id.rv_quiz_list)
+                            recyclerview.layoutManager = LinearLayoutManager(context)
+                            recyclerview.adapter = adapter
+                        }
+
+
+                    } else {
+                        showToast("Null object received")
                     }
+                    else -> showToast("Response code: ${response.code()}")
                 }
             }
-
-            adapter.onEditClick = object : QuizAdapter.OnEditClickListener{
-                override fun onEditClick(quizId: Long) {
-                    val intent = Intent(context, EditQuizActivity::class.java)
-                    intent.putExtra("id",quizId)
-                    editQuiz.launch(intent)
-                }
-
+            catch (e: Exception){
+                showToast("Exception: ${e.message}")
             }
-            val recyclerview: RecyclerView = findViewById(R.id.rv_quiz_list)
-            recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = adapter
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fillRecyclerView()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +120,16 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
+        val savedToken = sharedPreferences.getString("token", "")
+//        Toast.makeText(this, savedToken.toString(), Toast.LENGTH_SHORT).show()
+
+        appService = getRetrofit().create(AppService::class.java)
+
         var btn_add_quiz = findViewById<Button>(R.id.btn_menu_add_quiz)
         btn_add_quiz.setOnClickListener{
+
             val intent = Intent(this, AddQuizActivity::class.java)
             getQuiz.launch(intent)
         }

@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import estgoh.andre.tam_proj.DataBase.Quiz.Quiz
+import estgoh.andre.tam_proj.DataBase.Quiz
+//import estgoh.andre.tam_proj.DataBase.Quiz.QuizRoom
 import estgoh.andre.tam_proj.R
 
 //https://www.geeksforgeeks.org/kotlin/android-recyclerview-in-kotlin/

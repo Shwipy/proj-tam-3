@@ -8,6 +8,23 @@
     tools:context=".InfoActivity">
 
 
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#79BDD1"
+        android:onClick="onLogoutClick"
+        android:text="Logout"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/label_title4"
         android:layout_width="wrap_content"
@@ -46,6 +63,18 @@
         app:layout_constraintTop_toBottomOf="@+id/label_title2" />
 
     <TextView
+        android:id="@+id/tf_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="..."
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_title10" />
+
+    <TextView
         android:id="@+id/label_title8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,6 +108,19 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label_title4" />
+
+    <TextView
+        android:id="@+id/label_title10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Utilizador:"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_title3" />
 
     <TextView
         android:id="@+id/label_title7"
