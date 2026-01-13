@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
 
     fun fillRecyclerView(){
         val context = this
-        lifecycleScope.launch{
 
+        lifecycleScope.launch{
             try {
                 val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
                 val token = sharedPreferences.getString("token","")
@@ -65,26 +65,29 @@ class MainActivity : AppCompatActivity() {
                             val adapter = QuizAdapter(quizes)
                             adapter.onClick = object : QuizAdapter.OnClickListener{
                                 override fun onClick(quizId: Long) {
+                                    // não pode ser quizes.size mas sim tenho de ir ver o número de perguntas que tem no quiz
                                     val numQuest = quizes.size
 
                                     if (numQuest > 0){
                                         //todo
+                                        showToast("Quiz tem Questões.")
 //                                        val intent = Intent(context, SolveQuizActivity::class.java)
 //                                        intent.putExtra("quizId",quizId)
 //                                        context.startActivity(intent)
 
                                     }else{
-                                        Toast.makeText(context, "Quiz ainda não tem questões!", Toast.LENGTH_SHORT).show()
+                                        showToast("Quiz ainda não tem Questões.")
                                     }
                                 }
                             }
 
                             adapter.onEditClick = object : QuizAdapter.OnEditClickListener{
-                                override fun onEditClick(quizId: Long) {
-                                    //todo
-//                                    val intent = Intent(context, EditQuizActivity::class.java)
-//                                    intent.putExtra("id",quizId)
-//                                    editQuiz.launch(intent)
+                                override fun onEditClick(quizId: Long, owned: Boolean) {
+
+                                    val intent = Intent(context, EditQuizActivity::class.java)
+                                    intent.putExtra("id",quizId)
+                                    intent.putExtra("owned",owned)
+                                    editQuiz.launch(intent)
                                 }
 
                             }

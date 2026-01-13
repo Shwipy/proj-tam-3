@@ -102,9 +102,6 @@ class LoginActivity : AppCompatActivity() {
                         }
                         else{
                             val token: LoginResponse = body
-//                            showToast(body.token)
-//                            showToast("Login done.")
-
 
                             val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
                             val editor = sharedPreferences.edit()

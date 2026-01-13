@@ -16,7 +16,7 @@ class QuizAdapter(private val itemsList: List<Quiz>) : RecyclerView.Adapter<Quiz
     var onClick: OnClickListener? = null
     var onEditClick: OnEditClickListener? = null
     interface OnClickListener{ fun onClick(quizId: Long)}
-    interface OnEditClickListener{fun onEditClick(quizId: Long)}
+    interface OnEditClickListener{fun onEditClick(quizId: Long, owned: Boolean)}
 
 
     // create new views
@@ -37,9 +37,12 @@ class QuizAdapter(private val itemsList: List<Quiz>) : RecyclerView.Adapter<Quiz
 
         // sets the text to the textview from our itemHolder class
         holder.tvTitle.text = quiz.title
+        if (!quiz.owned){
+            holder.editButton.text = "View"
+        }
 
         holder.tvTitle.setOnClickListener { onClick?.onClick(quiz.id) }
-        holder.editButton.setOnClickListener { onEditClick?.onEditClick(quiz.id) }
+        holder.editButton.setOnClickListener { onEditClick?.onEditClick(quiz.id, quiz.owned) }
     }
 
     // return the number of the items in the list
