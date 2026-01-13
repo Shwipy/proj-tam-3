@@ -77,10 +77,9 @@ class ViewQuestionActivity : AppCompatActivity() {
 
                             adapter.onEditClick = object : QuestionAdapter.OnEditClickListener{
                                 override fun onEditClick(questionId: Long) {
-//                                    val intent = Intent(context, EditQuestionActivity::class.java)
-//                                    intent.putExtra("quizId",quizId)
-//                                    intent.putExtra("questId",questionId)
-//                                    editQuestion.launch(intent)
+                                    val intent = Intent(context, EditQuestionActivity::class.java)
+                                    intent.putExtra("questId",questionId)
+                                    editQuestion.launch(intent)
                                 }
 
                             }
@@ -122,7 +121,7 @@ class ViewQuestionActivity : AppCompatActivity() {
         val quizId = intent.getLongExtra("id", 0)
         val owned = intent.getBooleanExtra("owned", false)
 
-        showToast("Quiz ID: ${quizId}")
+//        showToast("Quiz ID: ${quizId}")
         val btn_add_new_question = findViewById<Button>(R.id.btn_add_new_question)
         if (!owned){
             btn_add_new_question.visibility = View.GONE

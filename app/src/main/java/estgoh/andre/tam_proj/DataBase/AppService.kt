@@ -97,4 +97,11 @@ interface AppService {
         @Path("id")questionID: Long,
         @Body question: Question
     ): Response<OkResponse>
+
+    @Headers("Accept: application/json")
+    @DELETE("questions/{id}")
+    suspend fun deleteQuestion(
+        @Header("Authorization") token: String,
+        @Path("id")questionId: Long,
+    ): Response<OkResponse>
 }
