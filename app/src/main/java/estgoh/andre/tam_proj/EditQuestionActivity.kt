@@ -211,46 +211,6 @@ class EditQuestionActivity : AppCompatActivity() {
         btn_leave_edit_quest.setOnClickListener {
             this.finish()
         }
-
-//            if(!editedQuestion.trim().isEmpty()){
-//
-//                if (correctAnswer == null){
-//                    Toast.makeText(this,"Resposta Correta Inválida", Toast.LENGTH_SHORT).show()
-//                    return@setOnClickListener
-//
-//                } else if (numberofAnswers == 2 && !answer_one.trim().isEmpty() && !answer_two.trim().isEmpty()){
-//                    val entry = QuestionRoom(id = questId ,quizId = quizId, question = editedQuestion, correctAnswer = correctAnswer!!, answer1 = answer_one, answer2 = answer_two, img = img_url)
-//                    Daos(this).question.update(entry)
-//
-//                    this.setResult(Activity.RESULT_OK,Intent())
-//                    this.finish()
-//
-//                }else if (numberofAnswers == 3 && !answer_one.trim().isEmpty() && !answer_two.trim().isEmpty() && !answer_three.trim().isEmpty()){
-//
-//                    val entry = QuestionRoom(id = questId ,quizId = quizId, question = editedQuestion, correctAnswer = correctAnswer!!, answer1 = answer_one, answer2 = answer_two, answer3 = answer_three, img = img_url)
-//                    Daos(this).question.update(entry)
-//
-//                    this.setResult(Activity.RESULT_OK,Intent())
-//                    this.finish()
-//
-//                }else if (numberofAnswers == 4 && !answer_one.trim().isEmpty() && !answer_two.trim().isEmpty() && !answer_three.trim().isEmpty() && !answer_four.trim().isEmpty()){
-//
-//                    val entry = QuestionRoom(id = questId ,quizId = quizId, question = editedQuestion, correctAnswer = correctAnswer!!, answer1 = answer_one, answer2 = answer_two, answer3 = answer_three, answer4 = answer_four, img = img_url)
-//                    Daos(this).question.update(entry)
-//
-//                    this.setResult(Activity.RESULT_OK,Intent())
-//                    this.finish()
-//
-//                }else{
-//                    Toast.makeText(this,"Resposta(s) não Introduzidas", Toast.LENGTH_SHORT).show()
-//                    return@setOnClickListener
-//                }
-//            } else{
-//                Toast.makeText(this,"Questão não foi Introduzida", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-
-//        }
     }
 
     fun getNumberAnswers(question: Question): Int{
@@ -268,21 +228,39 @@ class EditQuestionActivity : AppCompatActivity() {
 
         val answer1 = answer_one.text.toString()
         val answer2 = answer_two.text.toString()
-        val answer3 = answer_three.text.toString()
-        val answer4 = answer_four.text.toString()
-
-        val img = img.text.toString().ifEmpty {
-            null
+        val answer3 = answer_three.text.toString().ifEmpty {
+            "__null__"
+        }
+        val answer4 = answer_four.text.toString().ifEmpty {
+            "__null__"
         }
 
-
-
-//        if( question.trim().isEmpty() || answer1.trim().isEmpty() || answer2.trim().isEmpty() || correctAnswer!! <= 0){
-//            showToast("Campos Inválidos")
-//            return
-//        }
+        val img = img.text.toString().ifEmpty {
+            "__null__"
+        }
 
         val updatedQuestion = Question(id = questId, question = question, correct_answer = correctAnswer!!, answer1 = answer1, answer2 = answer2, answer3 = answer3, answer4 = answer4, img = img)
+
+        if(question.trim().isEmpty()){
+            showToast("Sem resposta correta!!!")
+            return
+        }
+
+        if(updatedQuestion.answer1.trim().isEmpty() || updatedQuestion.answer2.trim().isEmpty()){
+            showToast("Resposta não introduzida")
+            return
+        }
+
+        if(numberofAnswers >= 3 && updatedQuestion.answer3 == "__null__"){
+            showToast("Resposta não introduzida")
+            return
+        }
+
+        if(numberofAnswers == 4 && updatedQuestion.answer4 == "__null__"){
+            showToast("Resposta não introduzida")
+            return
+        }
+
 
         lifecycleScope.launch{
             try {
@@ -293,11 +271,12 @@ class EditQuestionActivity : AppCompatActivity() {
 
                 when (response.code()) {
                     200 -> {
-                        showToast("Quiz editado com sucesso.")
+                        showToast(updatedQuestion.toString())
+                        showToast("Question editada com sucesso.")
                         finish()
                     }
                     400 -> showToast("Algo de errado não está certo.")
-                    401 -> showToast("Não pode editar Quizes de outro User.")
+                    401 -> showToast("Não pode editar Questions de outro User.")
                     else -> {
 
                         val body = response.errorBody()?.string()

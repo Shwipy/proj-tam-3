@@ -69,9 +69,9 @@ class ViewQuestionActivity : AppCompatActivity() {
                             val adapter = QuestionAdapter(questions, owned)
                             adapter.onClick = object : QuestionAdapter.OnClickListener{
                                 override fun onClick(questionId: Long) {
-//                                    val intent = Intent(context, QuestionTestActivity::class.java)
-//                                    intent.putExtra("id",questionId)
-//                                    context.startActivity(intent)
+                                    val intent = Intent(context, QuestionTestActivity::class.java)
+                                    intent.putExtra("id",questionId)
+                                    context.startActivity(intent)
                                 }
                             }
 
