@@ -29,6 +29,12 @@ interface AppService {
     ): Response<LoginResponse>
 
     @Headers("Accept: application/json")
+    @PUT("token")
+    suspend fun tokenRenew(
+        @Header("Authorization") token: String
+    ): Response<LoginResponse>
+
+    @Headers("Accept: application/json")
     @GET("player")
     suspend fun getUser(
         @Header("Authorization") token: String
@@ -103,5 +109,18 @@ interface AppService {
     suspend fun deleteQuestion(
         @Header("Authorization") token: String,
         @Path("id")questionId: Long,
+    ): Response<OkResponse>
+
+    @Headers("Accept: application/json")
+    @POST("activity/{id}")
+    suspend fun addPlayer(
+        @Header("Authorization") token: String,
+        @Path("id")questionId: Long
+    ): Response<OkResponse>
+
+    @Headers("Accept: application/json")
+    @PUT("activity")
+    suspend fun removePlayer(
+        @Header("Authorization") token: String,
     ): Response<OkResponse>
 }

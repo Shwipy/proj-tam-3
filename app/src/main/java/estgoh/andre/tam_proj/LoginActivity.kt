@@ -15,6 +15,7 @@ import estgoh.andre.tam_proj.DataBase.APIResponses.LoginResponse
 import estgoh.andre.tam_proj.DataBase.AppService
 import estgoh.andre.tam_proj.DataBase.User
 import estgoh.andre.tam_proj.DataBase.getRetrofit
+import estgoh.andre.tam_proj.Stuff.renewToken
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -22,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var username: EditText
     lateinit var password: EditText
     lateinit var appService: AppService
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +110,7 @@ class LoginActivity : AppCompatActivity() {
                             editor.putString("token", token.token)
                             editor.apply()
 
+                            renewToken(context)
                             val intent = Intent(context, MainActivity::class.java)
                             context.startActivity(intent)
                             finish()

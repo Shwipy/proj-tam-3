@@ -133,7 +133,6 @@ class EditQuizActivity : AppCompatActivity() {
         }
     }
     fun onUpdateClick(v: View){
-        val context = this
         val quizId = intent.getLongExtra("id", 0)
         val title = title.text.toString()
         val description = description.text.toString()

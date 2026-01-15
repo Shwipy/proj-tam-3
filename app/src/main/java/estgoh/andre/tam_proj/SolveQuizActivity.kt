@@ -1,6 +1,7 @@
 package estgoh.andre.tam_proj
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -16,9 +17,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import estgoh.andre.tam_proj.DataBase.APIResponses.ErrorResponse
 import estgoh.andre.tam_proj.DataBase.AppService
 import estgoh.andre.tam_proj.DataBase.Question
+import estgoh.andre.tam_proj.DataBase.Quiz
 import estgoh.andre.tam_proj.DataBase.getRetrofit
+import estgoh.andre.tam_proj.Stuff.QuizAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -239,7 +245,7 @@ class SolveQuizActivity : AppCompatActivity() {
     }
 
     fun showDialog(){
-
+        userEndQuiz()
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Acertou ${rightAnswers} de ${numQuestions} Questões!!! :D")
             .setPositiveButton("OK") { dialog, id ->
@@ -278,6 +284,8 @@ class SolveQuizActivity : AppCompatActivity() {
                 val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
                 val token = sharedPreferences.getString("token","")
 
+                userStartQuiz()
+
                 val response = appService.getQuizQuestions("Bearer $token", quizId)
                 val body: List<Question>? = response.body()
                 when (response.code()) {
@@ -289,7 +297,6 @@ class SolveQuizActivity : AppCompatActivity() {
                         }
 
                         withContext(Dispatchers.Main) {
-
                             fillQuestion(questions[solveId])
 
                             val btn_next_question = findViewById<ImageButton>(R.id.btn_next_question_quiz)
@@ -371,6 +378,54 @@ class SolveQuizActivity : AppCompatActivity() {
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+    fun userStartQuiz(){
+        lifecycleScope.launch{
+            try {
+                val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
+                val token = sharedPreferences.getString("token","")
+                val quizId = intent.getLongExtra("quizId", 0)
+
+                val response = appService.addPlayer("Bearer $token", quizId)
+                when (response.code()) {
+                    200 -> showToast("Quiz Iniciado.")
+                    404 -> showToast("Quiz não está disponivel")
+
+                    else -> {
+                        val body = response.errorBody()?.string()
+                        val gson = com.google.gson.Gson()
+                        val errorObj = gson.fromJson(body, ErrorResponse::class.java)
+
+                        showToast("Response: ${errorObj.error}")
+                    }
+                }
+            }
+            catch (e: Exception){
+                showToast("Exception: ${e.message}")
+            }
+        }
+    }
+
+    fun userEndQuiz(){
+        lifecycleScope.launch{
+            try {
+                val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
+                val token = sharedPreferences.getString("token","")
+
+                val response = appService.removePlayer("Bearer $token")
+                when (response.code()) {
+                    200 -> showToast("Quiz Terminado.")
+
+                    else -> {
+                        showToast("Response code: ${response.code()}")
+                    }
+                }
+
+            }
+            catch (e: Exception){
+                showToast("Exception: ${e.message}")
+            }
+        }
     }
 
 }
