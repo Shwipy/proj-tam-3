@@ -19,8 +19,6 @@ import androidx.lifecycle.lifecycleScope
 import estgoh.andre.tam_proj.DataBase.AppService
 import estgoh.andre.tam_proj.DataBase.Question
 import estgoh.andre.tam_proj.DataBase.getRetrofit
-//import estgoh.andre.tam_proj.DataBase.Question.QuestionRoom
-//import estgoh.andre.tam_proj.Stuff.Daos
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -317,11 +315,19 @@ class SolveQuizActivity : AppCompatActivity() {
                     } else {
                         showToast("Null object received")
                     }
-                    else -> showToast("Response code: ${response.code()}")
+                    400 -> {
+                        showToast("Quiz ainda não tem Questões")
+                        finish()
+                    }
+                    else -> {
+                        showToast("Response code: ${response.code()}")
+                        finish()
+                    }
                 }
             }
             catch (e: Exception){
                 showToast("Exception: ${e.message}")
+                finish()
             }
         }
     }

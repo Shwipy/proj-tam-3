@@ -35,19 +35,6 @@ class EditQuizActivity : AppCompatActivity() {
 
     lateinit var appService: AppService
 
-//    fun showDialog(quizId: Long){
-//        val builder = AlertDialog.Builder(this)
-//        builder.setMessage("Pretende mesmo apagar este quiz?")
-//            .setPositiveButton("Yes") { dialog, id ->
-//                Daos(this).quiz.delete(quizId)
-//                this.setResult(Activity.RESULT_OK,Intent())
-//                finish()
-//            }
-//            .setNegativeButton("No") { dialog, id ->
-//            }
-//        builder.create().show()
-//    }
-
     //https://stackoverflow.com/questions/4297763/disabling-of-edittext-in-android
     fun disableEditText(editText: EditText) {
         editText.setFocusable(false)
@@ -111,11 +98,23 @@ class EditQuizActivity : AppCompatActivity() {
                     } else {
                         showToast("Null object received")
                     }
-                    else -> showToast("Response code: ${response.code()}")
+                    404 ->{
+                        showToast("Quiz já não está disponivel.")
+                        finish()
+                    }
+                    else -> {
+                        val body = response.errorBody()?.string()
+                        val gson = com.google.gson.Gson()
+                        val errorObj = gson.fromJson(body, ErrorResponse::class.java)
+
+                        showToast("Response: ${errorObj.error}")
+                        finish()
+                    }
                 }
             }
             catch (e: Exception){
                 showToast("Exception: ${e.message}")
+                finish()
             }
         }
 
@@ -145,7 +144,7 @@ class EditQuizActivity : AppCompatActivity() {
             return
             }
 
-        val updatedQuiz = Quiz(id = quizId,title = title, description = description, duration = duration!!)
+        val updatedQuiz = Quiz(id = quizId, title = title, description = description, duration = duration)
 
         lifecycleScope.launch{
             try {
@@ -158,8 +157,11 @@ class EditQuizActivity : AppCompatActivity() {
                     200 -> {
                         showToast("Quiz editado com sucesso.")
                     }
-                    400 -> showToast("Response code 400: bad request.")
                     401 -> showToast("Não pode editar Quizes de outro User.")
+                    404 -> {
+                        showToast("Quiz já não existe.")
+                        finish()
+                    }
                     else -> {
 
                         val body = response.errorBody()?.string()
@@ -172,6 +174,7 @@ class EditQuizActivity : AppCompatActivity() {
             }
             catch (e: Exception){
                 showToast("Exception: ${e.message}")
+                finish()
             }
         }
     }
@@ -189,17 +192,18 @@ class EditQuizActivity : AppCompatActivity() {
                         val token = sharedPreferences.getString("token","")
 
                         val response = appService.deleteQuiz("Bearer $token", quizId)
-                        val body = response.body()
 
                         when (response.code()) {
                             200 -> {
                                 showToast("Quiz apagado com sucesso.")
-                                val intent = Intent(context, MainActivity::class.java)
-                                context.startActivity(intent)
                                 finish()
                             }
-                            400 -> showToast("Response code 400: bad request.")
                             401 -> showToast("Não pode apagar Quizes de outro User.")
+                            404 -> {
+                                showToast("Quiz já não existe.")
+                                finish()
+                            }
+                            409 -> showToast("Existe um User a fazer o Quiz.")
                             else -> {
 
                                 val body = response.errorBody()?.string()
@@ -212,6 +216,7 @@ class EditQuizActivity : AppCompatActivity() {
                     }
                     catch (e: Exception){
                         showToast("Exception: ${e.message}")
+                        finish()
                     }
                 }
             }

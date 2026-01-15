@@ -198,8 +198,10 @@ class QuestionTestActivity : AppCompatActivity() {
                             }
                         }
 
-                    } else {
-                        showToast("Null object received")
+                    }
+                    404 -> {
+                        showToast("Quiz já não existe.")
+                        finish()
                     }
                     else -> showToast("Response code: ${response.code()}")
                 }

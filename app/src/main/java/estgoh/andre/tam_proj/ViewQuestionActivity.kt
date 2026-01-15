@@ -61,7 +61,7 @@ class ViewQuestionActivity : AppCompatActivity() {
                 val body: List<Question>? = response.body()
 
                 when (response.code()) {
-                    200 -> if (body != null) {
+                    200,400 -> if (body != null) {
                         val questions: List<Question> = body
 
                         withContext(Dispatchers.Main){
@@ -88,16 +88,22 @@ class ViewQuestionActivity : AppCompatActivity() {
                             recyclerview.adapter = adapter
                         }
 
-                    }else {
-                        showToast("Null object received")
+                    }
+                    404 -> {
+                        showToast("Quiz já não existe.")
+                        finish()
                     }
 
-                    else -> showToast("Response code: ${response.code()}")
+                    else -> {
+                        showToast("Response code: ${response.code()}")
+                        finish()
+                    }
                 }
 
             }
             catch (e: Exception){
                 showToast("Exception: ${e.message}")
+                finish()
             }
         }
     }

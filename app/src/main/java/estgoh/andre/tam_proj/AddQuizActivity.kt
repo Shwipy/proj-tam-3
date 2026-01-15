@@ -75,17 +75,12 @@ class AddQuizActivity : AppCompatActivity() {
                                 showToast("Null object received")
                             }
                             else{
-                                val token: OkResponse = body
-
                                 showToast("Quiz adicionado com sucesso.")
-                                val intent = Intent(context, MainActivity::class.java)
-                                context.startActivity(intent)
                                 finish()
 
                             }
                         }
-                        400 -> showToast("Response code 400: bad request.")
-                        401 -> showToast("Password incorreta.")
+                        400 -> showToast("Verifique os valores introduzidos.")
                         else -> {
                             val body = response.errorBody()?.string()
 

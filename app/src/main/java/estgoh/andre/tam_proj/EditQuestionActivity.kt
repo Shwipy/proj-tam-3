@@ -133,8 +133,10 @@ class EditQuestionActivity : AppCompatActivity() {
                             }
                         }
 
-                    } else {
-                        showToast("Null object received")
+                    }
+                    404 -> {
+                        showToast("Quiz já não existe.")
+                        finish()
                     }
                     else -> showToast("Response code: ${response.code()}")
                 }
@@ -276,7 +278,14 @@ class EditQuestionActivity : AppCompatActivity() {
                         finish()
                     }
                     400 -> showToast("Algo de errado não está certo.")
-                    401 -> showToast("Não pode editar Questions de outro User.")
+                    401 -> {
+                        showToast("Não pode editar Questions de outro User.")
+                        finish()
+                    }
+                    404 -> {
+                        showToast("O Quiz já não existe.")
+                        finish()
+                    }
                     else -> {
 
                         val body = response.errorBody()?.string()
@@ -284,11 +293,13 @@ class EditQuestionActivity : AppCompatActivity() {
                         val errorObj = gson.fromJson(body, ErrorResponse::class.java)
 
                         showToast("Response: ${errorObj.error}")
+                        finish()
                     }
                 }
             }
             catch (e: Exception){
                 showToast("Exception: ${e.message}")
+                finish()
             }
         }
     }
@@ -311,8 +322,11 @@ class EditQuestionActivity : AppCompatActivity() {
                                 showToast("Question apagada com sucesso.")
                                 finish()
                             }
-                            400 -> showToast("Response code 400: bad request.")
-                            401 -> showToast("Não pode apagar Questions de outro User.")
+                            401 -> showToast("Não pode apagar uma Question de outro User.")
+                            404 -> {
+                                showToast("Question já não existe")
+                                finish()
+                            }
                             else -> {
 
                                 val body = response.errorBody()?.string()
@@ -320,11 +334,13 @@ class EditQuestionActivity : AppCompatActivity() {
                                 val errorObj = gson.fromJson(body, ErrorResponse::class.java)
 
                                 showToast("Response: ${errorObj.error}")
+                                finish()
                             }
                         }
                     }
                     catch (e: Exception){
                         showToast("Exception: ${e.message}")
+                        finish()
                     }
                 }
             }

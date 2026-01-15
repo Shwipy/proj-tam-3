@@ -208,7 +208,15 @@ class AddQuestionActivity : AppCompatActivity() {
                         showToast("Question adicionada com sucesso.")
                         finish()
                     }
-                    400 -> showToast("Response code 400: bad request.")
+                    400 -> showToast("Verifique os valores introduzidos")
+                    401 -> {
+                        showToast("Não pode adicionar uma Question de um Quiz que não é seu.")
+                        finish()
+                    }
+                    404 -> {
+                        showToast("Quiz já não existe.")
+                        finish()
+                    }
                     else -> {
                         val body = response.errorBody()?.string()
 

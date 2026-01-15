@@ -59,10 +59,10 @@ class LoginActivity : AppCompatActivity() {
                             showToast("Null object received")
                         }
                         else{
-                            showToast("Contact inserted.")
+                            showToast("Utilizador criado com sucesso.")
                         }
                     }
-                    400 -> showToast("Response code 400: bad request.")
+                    400 -> showToast("Novo utilizador precisa de nome e password.")
                     else -> {
 
                         val body = response.errorBody()?.string()
@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         if (name.trim().isEmpty() || pass.trim().isEmpty()) {
-            showToast("Player name or password cannot be empty")
+            showToast("Dados de Login em falta.")
             return
         }
         val userData = User(0, name, pass)
@@ -114,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
 
                         }
                     }
-                    400 -> showToast("Response code 400: bad request.")
+                    400 -> showToast("Dados de Login em falta.")
                     401 -> showToast("Password incorreta.")
                     else -> {
                         val body = response.errorBody()?.string()
