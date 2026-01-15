@@ -64,16 +64,16 @@ class MainActivity : AppCompatActivity() {
 
                             val adapter = QuizAdapter(quizes)
                             adapter.onClick = object : QuizAdapter.OnClickListener{
-                                override fun onClick(quizId: Long) {
+                                override fun onClick(quizId: Long, duration: Int) {
                                     // não pode ser quizes.size mas sim tenho de ir ver o número de perguntas que tem no quiz
                                     val numQuest = quizes.size
 
                                     if (numQuest > 0){
-                                        //todo
                                         showToast("Quiz tem Questões.")
-//                                        val intent = Intent(context, SolveQuizActivity::class.java)
-//                                        intent.putExtra("quizId",quizId)
-//                                        context.startActivity(intent)
+                                        val intent = Intent(context, SolveQuizActivity::class.java)
+                                        intent.putExtra("quizId",quizId)
+                                        intent.putExtra("duration",duration)
+                                        context.startActivity(intent)
 
                                     }else{
                                         showToast("Quiz ainda não tem Questões.")

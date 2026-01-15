@@ -15,7 +15,7 @@ class QuizAdapter(private val itemsList: List<Quiz>) : RecyclerView.Adapter<Quiz
 
     var onClick: OnClickListener? = null
     var onEditClick: OnEditClickListener? = null
-    interface OnClickListener{ fun onClick(quizId: Long)}
+    interface OnClickListener{ fun onClick(quizId: Long, duration: Int)}
     interface OnEditClickListener{fun onEditClick(quizId: Long, owned: Boolean)}
 
 
@@ -41,7 +41,7 @@ class QuizAdapter(private val itemsList: List<Quiz>) : RecyclerView.Adapter<Quiz
             holder.editButton.text = "View"
         }
 
-        holder.tvTitle.setOnClickListener { onClick?.onClick(quiz.id) }
+        holder.tvTitle.setOnClickListener { onClick?.onClick(quiz.id, quiz.duration) }
         holder.editButton.setOnClickListener { onEditClick?.onEditClick(quiz.id, quiz.owned) }
     }
 
