@@ -1,14 +1,17 @@
 package estgoh.andre.tam_proj
 
+import android.R.id.message
 import estgoh.andre.tam_proj.Stuff.QuizAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -20,14 +23,15 @@ import estgoh.andre.tam_proj.DataBase.Quiz
 //import estgoh.andre.tam_proj.DataBase.Quiz.QuizRoom
 import estgoh.andre.tam_proj.DataBase.User
 import estgoh.andre.tam_proj.DataBase.getRetrofit
-//import estgoh.andre.tam_proj.Stuff.Daos
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.min
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var appService: AppService
+    var mine: Boolean = false
 
 //    var quizes : List<QuizRoom> = emptyList()
 //    var questionRooms = ArrayList<QuestionRoom>()
@@ -58,11 +62,16 @@ class MainActivity : AppCompatActivity() {
                 val body: List<Quiz>? = response.body()
                 when (response.code()) {
                     200 -> if (body != null) {
-                        val quizes: List<Quiz> = body
+                        val allQuizes: List<Quiz> = body
 
                         withContext(Dispatchers.Main){
+                            val adapter = if (mine){
+                                val myQuizes = allQuizes.filter { it.owned }
+                                QuizAdapter(myQuizes)
+                            } else{
+                                QuizAdapter(allQuizes)
+                            }
 
-                            val adapter = QuizAdapter(quizes)
                             adapter.onClick = object : QuizAdapter.OnClickListener{
                                 override fun onClick(quizId: Long, duration: Int) {
 
@@ -116,10 +125,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE)
-        val savedToken = sharedPreferences.getString("token", "")
-//        Toast.makeText(this, savedToken.toString(), Toast.LENGTH_SHORT).show()
-
         appService = getRetrofit().create(AppService::class.java)
 
         var btn_add_quiz = findViewById<Button>(R.id.btn_menu_add_quiz)
@@ -135,7 +140,15 @@ class MainActivity : AppCompatActivity() {
             this.startActivity(intent)
         }
 
-        fillRecyclerView()
+//        https://www.geeksforgeeks.org/kotlin/switch-in-kotlin/
+        val switch: SwitchCompat = findViewById(R.id.switch_myQuizes)
+        switch.setOnCheckedChangeListener({ _ , isChecked ->
+            mine = isChecked
+//            Toast.makeText(this, "mudou",Toast.LENGTH_SHORT).show()
+            fillRecyclerView()
+        })
+
+
 
     }
 }

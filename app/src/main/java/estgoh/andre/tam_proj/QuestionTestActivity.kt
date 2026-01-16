@@ -133,17 +133,16 @@ class QuestionTestActivity : AppCompatActivity() {
 
                                 imgView.visibility = View.VISIBLE
                                 imgView.setImageBitmap(bmp)
-
-                                if (answer_three == null){
-
-                                    //https://www.geeksforgeeks.org/kotlin/how-to-make-a-button-invisible-in-android
-                                    btn_op_3.visibility = View.GONE
-                                }
-                                if (answer_four == null){
-                                    btn_op_4.visibility = View.GONE
-                                }
-
                             }
+
+                            if (answer_three == null){
+                                //https://www.geeksforgeeks.org/kotlin/how-to-make-a-button-invisible-in-android
+                                btn_op_3.visibility = View.GONE
+                            }
+                            if (answer_four == null){
+                                btn_op_4.visibility = View.GONE
+                            }
+
                             btn_op_1.setOnClickListener {
 
                                 if (correct_answer == 1){
