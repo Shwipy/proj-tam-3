@@ -119,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     400 -> showToast("Dados de Login em falta.")
                     401 -> showToast("Password incorreta.")
+                    404 -> showToast("User não existe.")
                     else -> {
                         val body = response.errorBody()?.string()
 
