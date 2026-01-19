@@ -44,7 +44,7 @@ fun renewToken(context: Context){
                 Toast.makeText(context, "Exception: ${e.message}", Toast.LENGTH_SHORT).show()
             }
 
-            delay(5000 * 60 * 4)
+            delay(1000 * 60 * 4)
         }
     }
 
