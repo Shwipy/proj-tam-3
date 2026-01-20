@@ -138,11 +138,15 @@ class EditQuestionActivity : AppCompatActivity() {
                         showToast("Quiz já não existe.")
                         finish()
                     }
-                    else -> showToast("Response code: ${response.code()}")
+                    else -> {
+                        showToast("Algo de errado não está certo.")
+                        finish()
+                    }
                 }
             }
             catch (e: Exception){
                 showToast("Exception: ${e.message}")
+                finish()
             }
         }
 
@@ -241,6 +245,11 @@ class EditQuestionActivity : AppCompatActivity() {
             "__null__"
         }
 
+        if ( correctAnswer == null || correctAnswer!! > numberofAnswers){
+            showToast("Verifique dados introduzidos.")
+            return
+        }
+
         val updatedQuestion = Question(id = questId, question = question, correct_answer = correctAnswer!!, answer1 = answer1, answer2 = answer2, answer3 = answer3, answer4 = answer4, img = img)
 
         if(question.trim().isEmpty()){
@@ -273,7 +282,6 @@ class EditQuestionActivity : AppCompatActivity() {
 
                 when (response.code()) {
                     200 -> {
-                        showToast(updatedQuestion.toString())
                         showToast("Question editada com sucesso.")
                         finish()
                     }

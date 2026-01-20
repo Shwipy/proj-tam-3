@@ -128,11 +128,8 @@ class QuestionTestActivity : AppCompatActivity() {
                             imgView = findViewById<ImageView>(R.id.url_img)
 
                             if (questionData.img != null){
-                                val url = URL(questionData.img)
-                                val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-
-                                imgView.visibility = View.VISIBLE
-                                imgView.setImageBitmap(bmp)
+                                showToast("img")
+                                fillImg(questionData.img)
                             }
 
                             if (answer_three == null){
@@ -202,11 +199,15 @@ class QuestionTestActivity : AppCompatActivity() {
                         showToast("Quiz já não existe.")
                         finish()
                     }
-                    else -> showToast("Response code: ${response.code()}")
+                    else -> {
+                        showToast("Response code: ${response.code()}")
+                        finish()
+                    }
                 }
             }
             catch (e: Exception){
                 showToast("Exception: ${e.message}")
+                finish()
             }
         }
 
@@ -214,7 +215,21 @@ class QuestionTestActivity : AppCompatActivity() {
         btn_leave_test_question.setOnClickListener{
             this.finish()
         }
+    }
 
-
+    fun fillImg(img: String?){
+        lifecycleScope.launch(Dispatchers.IO){
+            try {
+                val url = URL(img)
+//              val url = URL("https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*")
+                val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                withContext(Dispatchers.Main) {
+                    imgView.visibility = View.VISIBLE
+                    imgView.setImageBitmap(bmp)
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

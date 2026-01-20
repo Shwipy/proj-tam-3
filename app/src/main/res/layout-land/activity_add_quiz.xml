@@ -74,7 +74,7 @@
             <Button
                 android:id="@+id/btn_cancel_quiz"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="56dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
@@ -93,7 +93,7 @@
             <Button
                 android:id="@+id/btn_add_quiz"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="56dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="24dp"
                 android:backgroundTint="#79BDD1"
@@ -131,7 +131,7 @@
             <EditText
                 android:id="@+id/tf_description"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"

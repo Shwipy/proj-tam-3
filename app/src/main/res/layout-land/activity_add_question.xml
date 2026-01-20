@@ -190,7 +190,7 @@
         <Button
             android:id="@+id/btn_add_question"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="56dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="24dp"
             android:backgroundTint="#79BDD1"
@@ -206,7 +206,7 @@
         <Button
             android:id="@+id/btn_cancel_question"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="56dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
