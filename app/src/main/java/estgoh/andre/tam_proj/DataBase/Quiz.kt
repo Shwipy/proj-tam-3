@@ -8,3 +8,4 @@ data class Quiz(
     val playerId: Long = 0,
     val owned: Boolean = false
 )
+

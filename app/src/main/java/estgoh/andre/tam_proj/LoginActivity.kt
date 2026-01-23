@@ -122,7 +122,6 @@ class LoginActivity : AppCompatActivity() {
                     404 -> showToast("User não existe.")
                     else -> {
                         val body = response.errorBody()?.string()
-
                         val gson = com.google.gson.Gson()
                         val errorObj = gson.fromJson(body, ErrorResponse::class.java)
 
